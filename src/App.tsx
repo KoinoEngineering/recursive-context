@@ -1,26 +1,102 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useContext } from "react";
 
-function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-          Learn React
-                </a>
-            </header>
+const Context = React.createContext(0);
+
+const AddOne: React.FC = ({ children }) => {
+    const context = useContext(Context);
+    const value = context + 1;
+    return <div>
+        <div>
+            value:{value}
         </div>
-    );
-}
+        <div style={{ marginLeft: "2rem" }}>
+            <Context.Provider value={value}>
+                {children}
+            </Context.Provider>
+        </div>
+    </div>;
+};
+
+const AddTwo: React.FC = ({ children }) => {
+    const context = useContext(Context);
+    const value = context + 2;
+    return <div>
+        <div>
+            value:{value}
+        </div>
+        <div style={{ marginLeft: "2rem" }}>
+            <Context.Provider value={value}>
+                {children}
+            </Context.Provider>
+        </div>
+    </div>;
+};
+
+const FizzBuzz: React.FC = ({ children }) => {
+    const context = useContext(Context);
+    const value = context + 1;
+    return <div>
+        <div>
+            {value % 15 === 0
+                ? "FizzBuzz"
+                : value % 5 === 0
+                    ? "Buzz"
+                    : value % 3 === 0
+                        ? "Fizz"
+                        : value
+            }
+        </div>
+        <div style={{ marginLeft: "2rem" }}>
+            <Context.Provider value={value}>
+                {children}
+            </Context.Provider>
+        </div>
+    </div>;
+};
+
+const App: React.FC = () => {
+    return <div>
+        <div>
+            <AddOne>
+                <AddOne>
+                    <AddTwo>
+                    </AddTwo >
+                </AddOne>
+            </AddOne>
+        </div>
+        <div>
+            <AddOne>
+                <AddTwo>
+                    <AddOne>
+                    </AddOne>
+                </AddTwo >
+            </AddOne>
+        </div>
+        <div>
+            <FizzBuzz>
+                <FizzBuzz>
+                    <FizzBuzz>
+                        <FizzBuzz>
+                            <FizzBuzz>
+                                <FizzBuzz>
+                                    <FizzBuzz>
+                                        <FizzBuzz>
+                                            <FizzBuzz>
+                                                <FizzBuzz>
+                                                    <FizzBuzz>
+                                                    </FizzBuzz>
+                                                </FizzBuzz>
+                                            </FizzBuzz>
+                                        </FizzBuzz>
+                                    </FizzBuzz>
+                                </FizzBuzz>
+                            </FizzBuzz>
+                        </FizzBuzz>
+                    </FizzBuzz>
+                </FizzBuzz>
+            </FizzBuzz>
+        </div>
+    </div>;
+};
 
 export default App;
