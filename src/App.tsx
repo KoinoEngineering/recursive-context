@@ -7,9 +7,9 @@ const AddOne: React.FC = ({ children }) => {
     const value = context + 1;
     return <div>
         <div>
-            value:{value}
+            AddOne:{value}
         </div>
-        <div style={{ marginLeft: "2rem" }}>
+        <div>
             <Context.Provider value={value}>
                 {children}
             </Context.Provider>
@@ -22,9 +22,9 @@ const AddTwo: React.FC = ({ children }) => {
     const value = context + 2;
     return <div>
         <div>
-            value:{value}
+            AddTwo:{value}
         </div>
-        <div style={{ marginLeft: "2rem" }}>
+        <div>
             <Context.Provider value={value}>
                 {children}
             </Context.Provider>
@@ -38,20 +38,30 @@ const FizzBuzz: React.FC = ({ children }) => {
     return <div>
         <div>
             {value % 15 === 0
-                ? "FizzBuzz"
+                ? "FizzBuzz(" + value + ")"
                 : value % 5 === 0
-                    ? "Buzz"
+                    ? "Buzz(" + value + ")"
                     : value % 3 === 0
-                        ? "Fizz"
+                        ? "Fizz(" + value + ")"
                         : value
             }
         </div>
-        <div style={{ marginLeft: "2rem" }}>
+        <div>
             <Context.Provider value={value}>
                 {children}
             </Context.Provider>
         </div>
     </div>;
+};
+
+interface Props {
+    components: React.ComponentType<{}>[]
+}
+const ComponentReducer: React.FC<Props> = ({ components }) => {
+    const [Component, ...tail] = components;
+    return <Component>{
+        tail.length !== 0 && <ComponentReducer components={tail} />}
+    </Component>;
 };
 
 const App: React.FC = () => {
@@ -64,6 +74,7 @@ const App: React.FC = () => {
                 </AddOne>
             </AddOne>
         </div>
+        <br />
         <div>
             <AddOne>
                 <AddTwo>
@@ -72,29 +83,15 @@ const App: React.FC = () => {
                 </AddTwo >
             </AddOne>
         </div>
+        <br />
         <div>
-            <FizzBuzz>
-                <FizzBuzz>
-                    <FizzBuzz>
-                        <FizzBuzz>
-                            <FizzBuzz>
-                                <FizzBuzz>
-                                    <FizzBuzz>
-                                        <FizzBuzz>
-                                            <FizzBuzz>
-                                                <FizzBuzz>
-                                                    <FizzBuzz>
-                                                    </FizzBuzz>
-                                                </FizzBuzz>
-                                            </FizzBuzz>
-                                        </FizzBuzz>
-                                    </FizzBuzz>
-                                </FizzBuzz>
-                            </FizzBuzz>
-                        </FizzBuzz>
-                    </FizzBuzz>
-                </FizzBuzz>
-            </FizzBuzz>
+            ContextでFizzBuzz
+        </div>
+        <br />
+        <div style={{
+            marginLeft: "2rem"
+        }}>
+            <ComponentReducer components={Array(100).fill(FizzBuzz)} />
         </div>
     </div>;
 };
